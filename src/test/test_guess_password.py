@@ -39,7 +39,7 @@ class GuessPasswordTests(unittest.TestCase):
             target_len=len(target), optimal_fitness=optimal_fitness,
             gene_set=self.gene_set, display=fn_display
         )
-        self.assertEqual(best.genes, target)
+        self.assertEqual(''.join(best.genes), target)
 
 if __name__ == '__main__':
     unittest.main()
