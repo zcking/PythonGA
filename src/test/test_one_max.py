@@ -24,3 +24,6 @@ class OneMaxTests(unittest.TestCase):
             display=fn_display
         )
         self.assertEqual(best.fitness, optimal_fitness)
+
+    def test_benchmark(self):
+        genetic.Benchmark.run(lambda: self.test(length=4000), runs=5)
