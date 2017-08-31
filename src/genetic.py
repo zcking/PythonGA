@@ -59,13 +59,13 @@ class Chromosome(object):
 
 class Benchmark(object):
     @staticmethod
-    def run(function):
+    def run(function, runs=10):
         timings = []
         print('{0:^10} {1:^10} {2:^10}'.format(
             'Run Index', 'Mean', 'Std Dev'
         ))
         stdout = sys.stdout
-        for i in range(100):
+        for i in range(runs):
             sys.stdout = None
             start_time = time.time()
             function()

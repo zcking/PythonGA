@@ -2,8 +2,8 @@ import unittest
 import datetime
 import random
 
-import guess_password
-import genetic
+from src import guess_password
+from src import genetic
 
 class GuessPasswordTests(unittest.TestCase):
     gene_set = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLNOPQRSTUVWXYZ!."
