@@ -1,9 +1,8 @@
-import random
 import datetime
-import unittest
 import random
+import unittest
 
-import src.ch01.genetic as genetic
+import genetic
 
 
 def get_fitness(guess, target):
