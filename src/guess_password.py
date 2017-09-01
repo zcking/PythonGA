@@ -11,5 +11,5 @@ def get_fitness(guess, target):
 def display(candidate: genetic.Chromosome, start_time):
     time_diff = datetime.datetime.now() - start_time
     print('{genes}\t{fitness}\t{timing}'.format(
-        genes=candidate.genes, fitness=candidate.fitness, timing=str(time_diff)
+        genes=''.join(candidate.genes), fitness=candidate.fitness, timing=str(time_diff)
     ))
