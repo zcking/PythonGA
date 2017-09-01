@@ -25,25 +25,38 @@ def _mutate(parent, gene_set, get_fitness):
     return Chromosome(child_genes, fitness)
 
 
-def get_best(get_fitness, target_len, optimal_fitness, gene_set, display):
-    random.seed()
-    best_parent = _generate_parent(length=target_len, gene_set=gene_set, get_fitness=get_fitness)
-    display(best_parent)
-    if best_parent.fitness >= optimal_fitness:
-        return best_parent
+def _get_improvement(new_child, generate_parent):
+    best_parent = generate_parent()
+    yield best_parent
 
     while True:
-        child = _mutate(parent=best_parent, gene_set=gene_set, get_fitness=get_fitness)
-
-        if best_parent.fitness >= child.fitness:
+        child = new_child(best_parent)
+        if best_parent.fitness > child.fitness:
             continue
 
-        display(child)
+        if not child.fitness > best_parent.fitness:
+            best_parent = child
+            continue
 
-        if child.fitness >= optimal_fitness:
-            return child
-
+        yield child
         best_parent = child
+
+
+def get_best(get_fitness, target_len, optimal_fitness, gene_set, display):
+    random.seed()
+
+    def fn_mutate(parent):
+        return _mutate(parent=parent, gene_set=gene_set, get_fitness=get_fitness)
+
+    def fn_generate_parent():
+        return _generate_parent(target_len, gene_set, get_fitness)
+
+    for improvement in _get_improvement(fn_mutate, fn_generate_parent):
+        display(improvement)
+
+        # Found optimal fitness?
+        if not optimal_fitness > improvement.fitness:
+            return improvement
 
 
 class Chromosome(object):
@@ -53,6 +66,27 @@ class Chromosome(object):
     def __init__(self, genes, fitness):
         self.genes = genes
         self.fitness = fitness
+
+
+class Fitness(object):
+    numbers_in_sequence_count = None
+    total_gap = None
+
+    def __init__(self, numbers_in_sequence_count, total_gap):
+        self.numbers_in_sequence_count = numbers_in_sequence_count
+        self.total_gap = total_gap
+
+
+    def __gt__(self, other: 'Fitness'):
+        if self.numbers_in_sequence_count != other.numbers_in_sequence_count:
+            return self.numbers_in_sequence_count > other.numbers_in_sequence_count
+        return self.total_gap < other.total_gap
+
+    def __str__(self):
+        return '{seq} Sequential, {gap} Total Gap'.format(
+            seq=self.numbers_in_sequence_count,
+            gap=self.total_gap
+        )
 
 
 class Benchmark(object):
