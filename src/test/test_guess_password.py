@@ -17,12 +17,16 @@ class GuessPasswordTests(unittest.TestCase):
         self.guess_password(target)
 
     def test_benchmark(self):
-        genetic.Benchmark.run(self.test_Random)
+        genetic.Benchmark.run(self.test_Random, runs=5)
 
     def test_Random(self):
         length = 150
         target = ''.join(random.choice(self.gene_set) for _ in range(length))
         self.guess_password(target=target)
+
+    def test_empty_string(self):
+        target = ''
+        self.guess_password(target)
 
     def guess_password(self, target):
         start_time = datetime.datetime.now()
