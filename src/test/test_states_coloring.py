@@ -6,7 +6,7 @@ from src import genetic, states_coloring
 
 class StatesColoringTests(unittest.TestCase):
     def test(self):
-        states = states_coloring.load_data(file_name='../resource/adjacent_states.csv')
+        states = states_coloring.load_data(file_name='adjacent_states.csv')
         rules = states_coloring.build_rules(states)
         optimal_value = len(rules)
         state_index_lookup = {key: index for index, key in enumerate(sorted(states))}
