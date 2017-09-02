@@ -25,3 +25,6 @@ class EightQueensTest(unittest.TestCase):
             display=fn_display
         )
         self.assertTrue(not optimal_fitness > best.fitness)
+
+    def test_benchmark(self):
+        genetic.Benchmark.run(lambda: self.test(size=20), runs=5)
