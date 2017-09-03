@@ -38,4 +38,8 @@ class CardTests(unittest.TestCase):
     def test_fitness_greater_than_operator(self):
         fitness1 = cards.Fitness(0, 0, 0)
         fitness2 = cards.Fitness(0, 0, 1)
-        self.assertTrue(fitness1, fitness2)
+        self.assertTrue(fitness1 > fitness2)
+
+        fitness1 = cards.Fitness(0, 0, 0)
+        fitness2 = cards.Fitness(1, 1, 0)
+        self.assertTrue(fitness2 > fitness1)

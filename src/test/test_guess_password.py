@@ -17,7 +17,6 @@ class GuessPasswordTests(unittest.TestCase):
         target = 'For I am fearfully and wonderfully made.'
         self.guess_password(target)
 
-    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
         genetic.Benchmark.run(self.test_Random, runs=5)
 
