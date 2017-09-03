@@ -78,6 +78,3 @@ class GuessPasswordTests(unittest.TestCase):
                 gene_set=self.gene_set, display=fn_display
             )
         self.assertEqual(''.join(best.genes), target)
-
-if __name__ == '__main__':
-    unittest.main()

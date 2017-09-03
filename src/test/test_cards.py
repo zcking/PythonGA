@@ -49,3 +49,12 @@ class CardTests(unittest.TestCase):
         if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
             size = 1
         genetic.Benchmark.run(lambda: self.test(), runs=size)
+
+    def test_mutation_with_duplicates(self):
+        genes = [1,1]
+        original_genes = genes[:]
+        gene_set = [i + 1 for i in range(100)]
+
+        while len(genes) != len(set(genes)):
+            cards.mutate(genes, gene_set)
+        self.assertTrue(genes != original_genes)
