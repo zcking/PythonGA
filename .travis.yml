@@ -6,7 +6,7 @@ python:
   - "3.6"
 
 env:
-  - SKIP_BENCHMARK_TESTS=true
+  - MINIMAL_BENCHMARK_TESTS=true
 
 install:
   - pip install -r requirements.txt

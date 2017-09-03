@@ -45,4 +45,7 @@ class CardTests(unittest.TestCase):
         self.assertTrue(fitness2 > fitness1)
 
     def test_benchmark(self):
-        genetic.Benchmark.run(lambda: self.test(), runs=5)
+        size = 10
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            size = 1
+        genetic.Benchmark.run(lambda: self.test(), runs=size)

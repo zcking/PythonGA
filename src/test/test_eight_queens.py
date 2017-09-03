@@ -27,6 +27,8 @@ class EightQueensTest(unittest.TestCase):
         )
         self.assertTrue(not optimal_fitness > best.fitness)
 
-    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
-        genetic.Benchmark.run(lambda: self.test(size=20), runs=5)
+        runs=20
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            runs = 1
+        genetic.Benchmark.run(lambda: self.test(size=20), runs=runs)

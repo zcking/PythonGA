@@ -10,9 +10,11 @@ class SortedNumbersTests(unittest.TestCase):
     def test_sort_10_numbers(self):
         self.sort_numbers(10)
 
-    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
-        genetic.Benchmark.run(lambda: self.sort_numbers(length=40), runs=5)
+        runs = 5
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            runs = 1
+        genetic.Benchmark.run(lambda: self.sort_numbers(length=40), runs=runs)
 
     def sort_numbers(self, length=5):
         gene_set = [i for i in range(100)]
