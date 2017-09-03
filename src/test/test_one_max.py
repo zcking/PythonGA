@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 
@@ -25,5 +26,6 @@ class OneMaxTests(unittest.TestCase):
         )
         self.assertEqual(best.fitness, optimal_fitness)
 
+    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
         genetic.Benchmark.run(lambda: self.test(length=4000), runs=5)

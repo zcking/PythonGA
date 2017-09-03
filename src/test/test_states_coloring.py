@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 
@@ -36,5 +37,6 @@ class StatesColoringTests(unittest.TestCase):
         for index in range(len(states)):
             print(keys[index] + ' is ' + color_lookup[best.genes[index]])
 
+    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
         genetic.Benchmark.run(lambda: self.test(), runs=10)

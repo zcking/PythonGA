@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 
@@ -9,6 +10,7 @@ class SortedNumbersTests(unittest.TestCase):
     def test_sort_10_numbers(self):
         self.sort_numbers(10)
 
+    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
     def test_benchmark(self):
         genetic.Benchmark.run(lambda: self.sort_numbers(length=40), runs=5)
 
