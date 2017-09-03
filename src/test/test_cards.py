@@ -34,3 +34,8 @@ class CardTests(unittest.TestCase):
             custom_mutate=fn_mutate
         )
         self.assertTrue(not optimal_fitness > best.fitness)
+
+    def test_fitness_greater_than_operator(self):
+        fitness1 = cards.Fitness(0, 0, 0)
+        fitness2 = cards.Fitness(0, 0, 1)
+        self.assertTrue(fitness1, fitness2)
