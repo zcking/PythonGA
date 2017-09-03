@@ -42,3 +42,8 @@ class StatesColoringTests(unittest.TestCase):
         if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
             runs = 1
         genetic.Benchmark.run(lambda: self.test(), runs=runs)
+
+    def test_str_rule(self):
+        rule = states_coloring.Rule(1, 0)
+        string = str(rule)
+        self.assertEqual(string, '1 -> 0')
