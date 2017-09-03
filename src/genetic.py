@@ -50,7 +50,7 @@ def _get_improvement(new_child, generate_parent):
 
 
 def get_best(get_fitness, target_len, optimal_fitness, gene_set,
-             display, custom_mutate=None):
+             display, custom_mutate=None, custom_create=None):
     random.seed()
 
     if custom_mutate is None:
@@ -60,8 +60,13 @@ def get_best(get_fitness, target_len, optimal_fitness, gene_set,
         def fn_mutate(parent):
             return _mutate_custom(parent=parent, custom_mutate=custom_mutate, get_fitness=get_fitness)
 
-    def fn_generate_parent():
-        return _generate_parent(target_len, gene_set, get_fitness)
+    if custom_create is None:
+        def fn_generate_parent():
+            return _generate_parent(target_len, gene_set, get_fitness)
+    else:
+        def fn_generate_parent():
+            genes = custom_create()
+            return Chromosome(genes, get_fitness(genes))
 
     for improvement in _get_improvement(fn_mutate, fn_generate_parent):
         display(improvement)
@@ -87,7 +92,6 @@ class Fitness(object):
     def __init__(self, numbers_in_sequence_count, total_gap):
         self.numbers_in_sequence_count = numbers_in_sequence_count
         self.total_gap = total_gap
-
 
     def __gt__(self, other: 'Fitness'):
         if self.numbers_in_sequence_count != other.numbers_in_sequence_count:
