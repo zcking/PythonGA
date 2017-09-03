@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 
@@ -26,4 +27,7 @@ class OneMaxTests(unittest.TestCase):
         self.assertEqual(best.fitness, optimal_fitness)
 
     def test_benchmark(self):
-        genetic.Benchmark.run(lambda: self.test(length=4000), runs=5)
+        runs = 5
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            runs = 1
+        genetic.Benchmark.run(lambda: self.test(length=4000), runs=runs)

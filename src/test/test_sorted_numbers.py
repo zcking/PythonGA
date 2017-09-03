@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 
@@ -10,7 +11,10 @@ class SortedNumbersTests(unittest.TestCase):
         self.sort_numbers(10)
 
     def test_benchmark(self):
-        genetic.Benchmark.run(lambda: self.sort_numbers(length=40), runs=5)
+        runs = 5
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            runs = 1
+        genetic.Benchmark.run(lambda: self.sort_numbers(length=40), runs=runs)
 
     def sort_numbers(self, length=5):
         gene_set = [i for i in range(100)]

@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 import random
@@ -17,7 +18,10 @@ class GuessPasswordTests(unittest.TestCase):
         self.guess_password(target)
 
     def test_benchmark(self):
-        genetic.Benchmark.run(self.test_Random, runs=5)
+        runs = 5
+        if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
+            runs = 1
+        genetic.Benchmark.run(self.test_Random, runs=runs)
 
     def test_Random(self):
         length = 150
