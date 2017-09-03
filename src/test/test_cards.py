@@ -1,4 +1,4 @@
-
+import os
 import unittest
 import datetime
 
@@ -43,3 +43,7 @@ class CardTests(unittest.TestCase):
         fitness1 = cards.Fitness(0, 0, 0)
         fitness2 = cards.Fitness(1, 1, 0)
         self.assertTrue(fitness2 > fitness1)
+
+    @unittest.skipIf(os.environ.get('SKIP_BENCHMARK_TESTS', False), 'env variable set to skip benchmarks')
+    def test_benchmark(self):
+        genetic.Benchmark.run(lambda: self.test(), runs=5)
