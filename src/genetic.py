@@ -3,6 +3,7 @@ import time
 import sys
 import statistics
 
+
 def _generate_parent(length, gene_set, get_fitness):
     # Generate a parent with random sampling of genes from gene set
     genes = []
