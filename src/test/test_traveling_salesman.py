@@ -52,7 +52,6 @@ class TSPTests(unittest.TestCase):
 
         gene_set = nodes[:]
         start_time = datetime.datetime.now()
-        visited = set()
 
         def fn_display(candidate):
             traveling_salesman.display(candidate, start_time)
