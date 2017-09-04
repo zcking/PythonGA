@@ -77,3 +77,59 @@ class TSPTests(unittest.TestCase):
         if os.environ.get('MINIMAL_BENCHMARK_TESTS', False):
             runs = 1
         genetic.Benchmark.run(lambda: self.test_five_cities(), runs=runs)
+
+    def test_create_node(self):
+        city_a = traveling_salesman.Node('A')
+        city_b = traveling_salesman.Node('B', linked_cities={city_a: 4})
+        self.assertEqual(city_a.value, 'A')
+        self.assertEqual(city_b.linked_cities[city_a], 4)
+
+    def test_node_eq_and_ne(self):
+        city_a = traveling_salesman.Node('A')
+        city_a_2 = traveling_salesman.Node('A')
+        city_b = traveling_salesman.Node('B')
+        self.assertEqual(city_a, city_a_2)
+        self.assertNotEqual(city_a, city_b)
+
+    def test_repr(self):
+        city_a = traveling_salesman.Node('A')
+        self.assertEqual(repr(city_a), str(city_a))
+
+    def test_get_fitness(self):
+        city_a = traveling_salesman.Node('A')
+        city_b = traveling_salesman.Node('B')
+        city_a.add_edge(city_b, 5)
+
+        # Test it without duplicates
+        best_fitness = traveling_salesman.get_fitness([city_a, city_b], [city_a, city_b])
+        self.assertEqual(best_fitness, -5)
+
+        # Test it with duplicates
+        bad_fitness = traveling_salesman.get_fitness([city_a, city_a], [city_a, city_b])
+        self.assertTrue(bad_fitness < best_fitness)
+
+        print('Fitness w/o duplicates: {0}\nFitness w/ duplicates: {1}'.format(
+            best_fitness, bad_fitness
+        ))
+
+    def test_mutation_without_duplicates(self):
+        city_a = traveling_salesman.Node('A')
+        city_b = traveling_salesman.Node('B')
+        city_a.add_edge(city_b, 5)
+        genes = [city_a, city_b] # A -> B
+        original_genes = genes[:]
+        gene_set = [city_a, city_b]
+
+        traveling_salesman.mutate(genes, gene_set)
+        self.assertCountEqual(original_genes, genes)
+
+    def test_mutation_with_duplicates(self):
+        city_a = traveling_salesman.Node('A')
+        city_b = traveling_salesman.Node('B')
+        city_a.add_edge(city_b, 5)
+        genes = [city_a, city_a]
+        original_genes = genes[:]
+        gene_set = [city_a, city_b]
+
+        traveling_salesman.mutate(genes, gene_set)
+        self.assertCountEqual(original_genes, genes)
